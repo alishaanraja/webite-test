@@ -3,337 +3,547 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name | Professional Portfolio</title>
+  <title>Your Name | Portfolio</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --bg: #ffffff;
-      --bg-alt: #f8fafc;
-      --text: #0f172a;
-      --text-muted: #475569;
-      --border: #e2e8f0;
+      --bg: #060913;
+      --card: rgba(15, 23, 42, 0.72);
+      --border: rgba(148, 163, 184, 0.16);
+      --glow: rgba(56, 189, 248, 0.45);
+      --primary: #38bdf8;
+      --secondary: #818cf8;
+      --accent: #2dd4bf;
+      --text: #f8fafc;
+      --muted: #94a3b8;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
       scroll-behavior: smooth;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      background-color: var(--bg);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    /* Navigation */
+    .orb {
+      position: fixed;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      top: -120px;
+      left: -80px;
+      background: radial-gradient(circle, var(--primary), transparent);
+    }
+
+    .orb-2 {
+      bottom: 5%;
+      right: -120px;
+      background: radial-gradient(circle, var(--secondary), transparent);
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, 35px) scale(1.1); }
+    }
+
     header {
-      position: sticky;
+      position: fixed;
       top: 0;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px);
+      width: 100%;
+      background: rgba(6, 9, 19, 0.8);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       z-index: 100;
     }
 
-    .nav-container {
-      max-width: 1050px;
+    .nav-wrap {
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 1rem 1.5rem;
+      padding: 1rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .logo {
-      font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
+      font-weight: 800;
       color: var(--text);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .logo span {
-      color: var(--primary);
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
     }
 
     nav a {
-      margin-left: 1.5rem;
+      margin-left: 1.2rem;
       text-decoration: none;
-      color: var(--text-muted);
+      color: var(--muted);
+      font-size: 0.9rem;
       font-weight: 500;
-      font-size: 0.95rem;
       transition: color 0.2s;
     }
 
-    nav a:hover {
-      color: var(--primary);
-    }
+    nav a:hover { color: var(--primary); }
 
-    /* Hero Section */
     .hero {
-      max-width: 1050px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem 5rem;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 6rem 1.25rem 3rem;
+      overflow: hidden;
     }
 
-    .badge {
-      display: inline-block;
-      background: #eff6ff;
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 600;
+    #canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .hero-box {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      pointer-events: none;
+    }
+
+    .hero-box a { pointer-events: auto; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.35rem 0.9rem;
-      border-radius: 999px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--primary);
+      font-size: 0.82rem;
+      font-weight: 600;
       margin-bottom: 1.25rem;
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(45, 212, 191, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+    }
+
+    .grad {
+      background: linear-gradient(120deg, #fff, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      max-width: 640px;
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 580px;
       margin: 0 auto 2rem;
-      font-size: 1.15rem;
-      color: var(--text-muted);
     }
 
-    .btn-group {
+    .cta {
       display: flex;
-      gap: 1rem;
+      gap: 0.9rem;
       justify-content: center;
       flex-wrap: wrap;
     }
 
     .btn {
-      display: inline-block;
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
       font-weight: 600;
+      font-size: 0.92rem;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: transform 0.25s, box-shadow 0.25s;
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #040711;
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
     }
 
-    .btn-outline {
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       color: var(--text);
-      background: #ffffff;
     }
 
-    .btn-outline:hover {
-      border-color: var(--text-muted);
-      background: var(--bg-alt);
+    .btn-glass:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
     }
-
-    /* Sections */
     section {
-      padding: 5rem 1.5rem;
+      position: relative;
+      z-index: 2;
+      padding: 5rem 1.25rem;
     }
 
-    .section-alt {
-      background: var(--bg-alt);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    .container { max-width: 1080px; margin: 0 auto; }
+    .sec-head { margin-bottom: 2.5rem; }
+
+    .kicker {
+      color: var(--primary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
     }
 
-    .container {
-      max-width: 1050px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 1.85rem;
+    .sec-title {
+      font-size: clamp(1.75rem, 3.5vw, 2.3rem);
+      font-weight: 700;
       margin-bottom: 0.5rem;
     }
 
-    .section-subtitle {
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
+    .sec-desc { color: var(--muted); max-width: 540px; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    /* Grid Cards */
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.5rem;
     }
 
     .card {
-      background: #ffffff;
+      position: relative;
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 1.75rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        350px circle at var(--x, 50%) var(--y, 50%),
+        rgba(56, 189, 248, 0.16),
+        transparent 65%
+      );
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
     }
 
-    .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.6rem;
-    }
+    .card:hover::before { opacity: 1; }
+    .card:hover { transform: translateY(-5px); border-color: var(--glow); }
+    .card h3 { font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .card p { color: var(--muted); font-size: 0.94rem; margin-bottom: 1.2rem; }
 
-    .card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .tag {
-      display: inline-block;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.2rem 0.6rem;
+      padding: 0.22rem 0.6rem;
       border-radius: 6px;
-      margin-right: 0.35rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--primary);
     }
 
-    /* Contact Box */
     .contact-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--glow);
+      border-radius: 18px;
+      padding: 3.5rem 1.5rem;
       text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
     }
 
-    /* Footer */
+    .contact-box h2 { font-size: 2rem; margin-bottom: 0.75rem; }
+    .contact-box p {
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 1.75rem;
+    }
+
     footer {
+      position: relative;
+      z-index: 2;
       text-align: center;
-      padding: 2rem 1.5rem;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      padding: 2rem 1rem;
       border-top: 1px solid var(--border);
-    }
-
-    @media (max-width: 600px) {
-      nav a {
-        margin-left: 1rem;
-        font-size: 0.88rem;
-      }
+      color: var(--muted);
+      font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
   <header>
-    <div class="nav-container">
-      <a href="#" class="logo">Your<span>Name</span></a>
+    <div class="nav-wrap">
+      <a href="#" class="logo"><span class="dot"></span>YourName</a>
       <nav>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
+        <a href="#services">Expertise</a>
         <a href="#work">Work</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
   <div class="hero">
-    <span class="badge">Available for New Projects</span>
-    <h1>Helping businesses build modern digital experiences.</h1>
-    <p>Hi, I'm <strong>Your Name</strong>—a designer, developer, and problem-solver focused on creating clean, reliable solutions that drive results.</p>
-    <div class="btn-group">
-      <a href="#work" class="btn btn-primary">View My Work</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    <canvas id="canvas"></canvas>
+    <div class="hero-box">
+      <div class="pill"><span class="pulse"></span>Available for Work</div>
+      <h1>Building <span class="grad">Modern Digital</span> Experiences.</h1>
+      <p>Hi, I'm <strong>Your Name</strong>—a developer and designer creating responsive websites and clean interfaces.</p>
+      <div class="cta">
+        <a href="#work" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-glass">Contact Me</a>
+      </div>
     </div>
   </div>
 
-  <!-- About & Services -->
-  <section id="services" class="section-alt">
+  <section id="services">
     <div class="container">
-      <h2 class="section-title">What I Do</h2>
-      <p class="section-subtitle">Core areas of expertise tailored to help your project succeed.</p>
+      <div class="sec-head reveal">
+        <div class="kicker">Capabilities</div>
+        <h2 class="sec-title">What I Do</h2>
+        <p class="sec-desc">Clean engineering combined with modern visual design.</p>
+      </div>
       <div class="grid">
-        <div class="card">
+        <div class="card spotlight reveal">
           <h3>Web Development</h3>
-          <p>Fast, responsive, and accessible websites built with clean modern code that looks great on desktop and mobile devices.</p>
+          <p>Fast, responsive websites with smooth motion and reliable code.</p>
+          <div class="tags">
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">JavaScript</span>
+          </div>
         </div>
-        <div class="card">
+        <div class="card spotlight reveal">
           <h3>UI / UX Design</h3>
-          <p>Intuitive user interfaces and clear customer journeys designed to convert visitors and elevate your brand identity.</p>
+          <p>Intuitive layouts, interactive cards, and cohesive brand identity.</p>
+          <div class="tags">
+            <span class="tag">Design</span>
+            <span class="tag">Prototyping</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Strategy & Consulting</h3>
-          <p>Practical technical guidance, performance audits, and digital product planning from initial idea to launch.</p>
+        <div class="card spotlight reveal">
+          <h3>Digital Strategy</h3>
+          <p>Performance optimization and fast launches built to grow your brand.</p>
+          <div class="tags">
+            <span class="tag">SEO</span>
+            <span class="tag">Growth</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Featured Work -->
   <section id="work">
     <div class="container">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">A selection of recent work and case studies.</p>
+      <div class="sec-head reveal">
+        <div class="kicker">Portfolio</div>
+        <h2 class="sec-title">Featured Projects</h2>
+        <p class="sec-desc">Recent work demonstrating measurable impact and craft.</p>
+      </div>
       <div class="grid">
-        <div class="card">
-          <h3>Project Alpha</h3>
-          <p>Redesigned a client onboarding platform, reducing user drop-off by 35% and improving load times across mobile networks.</p>
-          <span class="tag">Web App</span>
-          <span class="tag">UI Design</span>
+        <div class="card spotlight reveal">
+          <h3>Nova Analytics</h3>
+          <p>Real-time dashboard with interactive charts and fast reporting.</p>
+          <div class="tags">
+            <span class="tag">Web App</span>
+            <span class="tag">Data Viz</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Brand Identity & Site</h3>
-          <p>Created a complete visual identity and high-converting marketing website for an emerging e-commerce startup.</p>
-          <span class="tag">Branding</span>
-          <span class="tag">HTML/CSS</span>
+        <div class="card spotlight reveal">
+          <h3>Aether Fintech</h3>
+          <p>Interactive product showcase with custom motion graphics.</p>
+          <div class="tags">
+            <span class="tag">Motion UI</span>
+            <span class="tag">Frontend</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Analytics Dashboard</h3>
-          <p>Built an interactive reporting interface enabling teams to track key business metrics in real time.</p>
-          <span class="tag">Dashboard</span>
-          <span class="tag">Strategy</span>
+        <div class="card spotlight reveal">
+          <h3>Pulse Commerce</h3>
+          <p>Mobile-first storefront with sub-second page transitions.</p>
+          <div class="tags">
+            <span class="tag">Storefront</span>
+            <span class="tag">UI/UX</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About Me -->
-  <section id="about" class="section-alt">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
-      <p class="section-subtitle">A brief look at my background and approach.</p>
-      <p style="max-width: 750px; color: var(--text-muted); font-size: 1.05rem;">
-        With experience spanning design, front-end engineering, and client strategy, I bridge the gap between great ideas and polished execution. Every project starts with clear communication, attention to detail, and a focus on measurable outcomes.
-      </p>
-    </div>
-  </section>
-
-  <!-- Contact -->
   <section id="contact">
-    <div class="container contact-box">
-      <h2 class="section-title">Let's Work Together</h2>
-      <p class="section-subtitle">Have a project in mind or want to connect? Reach out directly via email.</p>
-      <a href="mailto:hello@yourdomain.com" class="btn btn-primary">Email Me: hello@yourdomain.com</a>
+    <div class="container">
+      <div class="contact-box reveal">
+        <h2>Let's Work Together</h2>
+        <p>Have a project in mind? Reach out and let's build something great.</p>
+        <a href="mailto:hello@yourdomain.com" class="btn btn-primary">Email Me &rarr;</a>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>&copy; 2026 Your Name. Hosted on GitHub Pages.</p>
   </footer>
 
+  <script>
+    const c = document.getElementById('canvas');
+    const ctx = c.getContext('2d');
+    let dots = [];
+    const m = { x: null, y: null, r: 130 };
+
+    function resize() {
+      c.width = window.innerWidth;
+      c.height = document.querySelector('.hero').offsetHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = c.getBoundingClientRect();
+      m.x = e.clientX - rect.left;
+      m.y = e.clientY - rect.top;
+    });
+
+    window.addEventListener('mouseout', () => { m.x = null; m.y = null; });
+
+    class Dot {
+      constructor() {
+        this.x = Math.random() * c.width;
+        this.y = Math.random() * c.height;
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
+        this.s = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > c.width) this.vx *= -1;
+        if (this.y < 0 || this.y > c.height) this.vy *= -1;
+        if (m.x !== null) {
+          const dx = m.x - this.x, dy = m.y - this.y;
+          const d = Math.hypot(dx, dy);
+          if (d < m.r) {
+            const f = (m.r - d) / m.r;
+            this.x -= (dx / d) * f * 1.6;
+            this.y -= (dy / d) * f * 1.6;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.75)';
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      dots = [];
+      const n = Math.min(Math.floor((c.width * c.height) / 11000), 80);
+      for (let i = 0; i < n; i++) dots.push(new Dot());
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].update();
+        dots[i].draw();
+        for (let j = i + 1; j < dots.length; j++) {
+          const d = Math.hypot(dots[i].x - dots[j].x, dots[i].y - dots[j].y);
+          if (d < 120) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.22 * (1 - d / 120)})`;
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(dots[j].x, dots[j].y);
+            ctx.stroke();
+          }
+        }
+        if (m.x !== null) {
+          const d = Math.hypot(dots[i].x - m.x, dots[i].y - m.y);
+          if (d < 150) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(129, 140, 248, ${0.45 * (1 - d / 150)})`;
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(m.x, m.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+
+    init();
+    loop();
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+
+    document.querySelectorAll('.spotlight').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--x', `${e.clientX - r.left}px`);
+        card.style.setProperty('--y', `${e.clientY - r.top}px`);
+      });
+    });
+  </script>
 </body>
 </html>
